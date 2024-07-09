@@ -1,11 +1,14 @@
 <script setup>
   import { ref, computed } from 'vue'
   import { useAmiiboStore } from '@/stores/amiiboStore'
+  import { useRouter } from 'vue-router'
 
   const amiiboStore = useAmiiboStore()
 
   const currentPage = ref(1)
   const pageSize = 10
+
+  const router = useRouter()
 
   const amiibos = computed(() => {
       const startIndex = (currentPage.value - 1) * pageSize
@@ -14,8 +17,8 @@
 
   const totalPages = computed(() => Math.ceil(amiiboStore.amiibos.length / pageSize))
 
-  function seeDetails(amiibo) {
-      console.log('Voir les détails de:', amiibo.character)
+  function navigateToDetail(tail) {
+    router.push(`/detail/${tail}`)
   }
 
   function nextPage() {
@@ -57,7 +60,7 @@
               <tr v-for="amiibo in amiibos" :key="amiibo.tail">
                 <td>{{ amiibo.character }}</td>
                 <td>{{ amiibo.gameSeries }}</td>
-                <td><button @click="seeDetails(amiibo)">Voir</button></td>
+                <td><button @click="navigateToDetail(amiibo.tail)">Voir</button></td>
               </tr>
             </tbody>
           </table>
