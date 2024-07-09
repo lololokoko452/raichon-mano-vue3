@@ -1,3 +1,7 @@
+<script setup>
+
+</script>
+
 <template>
     <!-- Main -->
         <section id="main">
@@ -48,9 +52,6 @@
             </div>
         </section>
 </template>
-
-<script setup>
-</script>
 
 <style scoped>
 

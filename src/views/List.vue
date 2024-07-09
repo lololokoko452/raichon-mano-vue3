@@ -1,3 +1,38 @@
+<script setup>
+  import { ref, computed } from 'vue'
+  import { useAmiiboStore } from '@/stores/amiiboStore'
+
+  const amiiboStore = useAmiiboStore()
+
+  const currentPage = ref(1)
+  const pageSize = 10
+
+  const amiibos = computed(() => {
+      const startIndex = (currentPage.value - 1) * pageSize
+      return amiiboStore.amiibos.slice(startIndex, startIndex + pageSize)
+  })
+
+  const totalPages = computed(() => Math.ceil(amiiboStore.amiibos.length / pageSize))
+
+  function seeDetails(amiibo) {
+      console.log('Voir les détails de:', amiibo.character)
+  }
+
+  function nextPage() {
+      if (currentPage.value == totalPages.value) return
+      currentPage.value++
+  }
+
+  function prevPage() {
+      if (currentPage.value == 1) return
+      currentPage.value--
+  }
+
+  if (!amiiboStore.amiibos.length) {
+      amiiboStore.fetchAmiibos()
+  }
+</script>
+
 <template>
   <!-- Main -->
   <section id="main">
@@ -34,41 +69,6 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import { ref, computed } from 'vue'
-import { useAmiiboStore } from '@/stores/amiiboStore'
-
-const amiiboStore = useAmiiboStore()
-
-const currentPage = ref(1)
-const pageSize = 10
-
-const amiibos = computed(() => {
-    const startIndex = (currentPage.value - 1) * pageSize
-    return amiiboStore.amiibos.slice(startIndex, startIndex + pageSize)
-})
-
-const totalPages = computed(() => Math.ceil(amiiboStore.amiibos.length / pageSize))
-
-function seeDetails(amiibo) {
-    console.log('Voir les détails de:', amiibo.character)
-}
-
-function nextPage() {
-    if (currentPage.value == totalPages.value) return
-    currentPage.value++
-}
-
-function prevPage() {
-    if (currentPage.value == 1) return
-    currentPage.value--
-}
-
-if (!amiiboStore.amiibos.length) {
-    amiiboStore.fetchAmiibos()
-}
-</script>
 
 <style scoped>
 </style>
