@@ -1,7 +1,7 @@
 <script setup>
     import { onMounted, computed } from 'vue'
     import { useAmiiboStore } from '@/stores/amiiboStore'
-    import AmiiboCard from './AmiiboCard.vue'
+    import AmiiboCard from '@/components/AmiiboCard.vue'
 
     const amiiboStore = useAmiiboStore()
 
